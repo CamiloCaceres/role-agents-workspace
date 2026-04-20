@@ -1,0 +1,16 @@
+.DS_Store
+*.tmp
+*.swp
+
+# Runtime agent state — not source. The agent writes these on the
+# user's machine; we never check them in.
+/config/
+/candidates/
+/roles/
+/candidates.json
+/roles.json
+/pipelines.json
+/interviews.json
+/offers.json
+/at-risk.json
+/daily-brief.md

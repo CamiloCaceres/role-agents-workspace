@@ -1,0 +1,24 @@
+{
+  "id": "customer-support-rep",
+  "name": "Customer Support Rep",
+  "description": "Your AI Customer Support Rep. Triages inbound, drafts replies in your voice, tracks promises and SLAs, surfaces bugs and feature requests for engineering, and turns resolved tickets into KB drafts. Never sends without approval; never closes bugs or publishes articles on its own.",
+  "icon": "Headset",
+  "category": "business",
+  "author": "Houston Role Agents",
+  "tags": ["support", "csr", "helpdesk", "tickets", "customer"],
+  "tabs": [
+    { "id": "overview", "label": "Overview", "customComponent": "CsrDashboard" },
+    { "id": "activity", "label": "Activity", "builtIn": "board", "badge": "activity" },
+    { "id": "files", "label": "Files", "builtIn": "files" },
+    { "id": "integrations", "label": "Integrations", "builtIn": "integrations" }
+  ],
+  "defaultTab": "overview",
+  "agentSeeds": {
+    "conversations.json": "[]",
+    "customers.json": "[]",
+    "followups.json": "[]",
+    "bug-candidates.json": "[]",
+    "feature-requests.json": "[]",
+    "articles.json": "[]"
+  }
+}

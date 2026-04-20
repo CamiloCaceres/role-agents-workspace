@@ -1,0 +1,22 @@
+{
+  "id": "ea",
+  "name": "Executive Assistant",
+  "description": "Your AI Executive Assistant. Triages inbox, guards your calendar, prepares meeting briefs, tracks follow-ups, handles travel prep, and gives you a ranked priority list each morning. Never sends replies or invites without approval; never commits on your behalf.",
+  "icon": "CalendarCheck",
+  "category": "productivity",
+  "author": "Houston Role Agents",
+  "tags": ["productivity", "assistant", "calendar", "inbox", "scheduling"],
+  "tabs": [
+    { "id": "overview", "label": "Overview", "customComponent": "EaDashboard" },
+    { "id": "activity", "label": "Activity", "builtIn": "board", "badge": "activity" },
+    { "id": "files", "label": "Files", "builtIn": "files" },
+    { "id": "integrations", "label": "Integrations", "builtIn": "integrations" }
+  ],
+  "defaultTab": "overview",
+  "agentSeeds": {
+    "inbox-queue.json": "[]",
+    "followups.json": "[]",
+    "meetings-today.json": "[]",
+    "expenses.json": "[]"
+  }
+}

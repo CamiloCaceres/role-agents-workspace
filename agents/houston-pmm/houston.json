@@ -1,0 +1,23 @@
+{
+  "id": "pmm",
+  "name": "PMM",
+  "description": "Your AI Product Marketing Manager. Drafts launch briefs, builds battlecards, writes sales one-pagers, analyzes win-loss, designs messaging tests, and monitors competitors. Arms Sales with fresh positioning. Never publishes externally without approval.",
+  "icon": "Megaphone",
+  "category": "business",
+  "author": "Houston Role Agents",
+  "tags": ["marketing", "pmm", "product-marketing", "positioning", "launches", "battlecards", "competitive"],
+  "tabs": [
+    { "id": "overview", "label": "Overview", "customComponent": "PmmDashboard" },
+    { "id": "activity", "label": "Activity", "builtIn": "board", "badge": "activity" },
+    { "id": "files", "label": "Files", "builtIn": "files" },
+    { "id": "integrations", "label": "Integrations", "builtIn": "integrations" }
+  ],
+  "defaultTab": "overview",
+  "agentSeeds": {
+    "launches.json": "[]",
+    "battlecards.json": "[]",
+    "competitor-activity.json": "[]",
+    "win-loss.json": "[]",
+    "messaging-tests.json": "[]"
+  }
+}

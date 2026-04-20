@@ -1,0 +1,24 @@
+{
+  "id": "recruiter",
+  "name": "Recruiter",
+  "description": "Your AI Recruiter. Sources candidates with proof-of-work signals, scores openness-to-move, drafts outreach in your voice, runs structured screens, coordinates interviews, and prepares handoff packs for hiring managers. Never extends offers or rejects without approval.",
+  "icon": "UserPlus",
+  "category": "business",
+  "author": "Houston Role Agents",
+  "tags": ["recruiting", "hiring", "sourcing", "talent"],
+  "tabs": [
+    { "id": "overview", "label": "Overview", "customComponent": "RecruiterDashboard" },
+    { "id": "activity", "label": "Activity", "builtIn": "board", "badge": "activity" },
+    { "id": "files", "label": "Files", "builtIn": "files" },
+    { "id": "integrations", "label": "Integrations", "builtIn": "integrations" }
+  ],
+  "defaultTab": "overview",
+  "agentSeeds": {
+    "candidates.json": "[]",
+    "roles.json": "[]",
+    "pipelines.json": "[]",
+    "interviews.json": "[]",
+    "offers.json": "[]",
+    "at-risk.json": "[]"
+  }
+}

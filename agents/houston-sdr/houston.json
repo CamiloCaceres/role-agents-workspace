@@ -1,0 +1,22 @@
+{
+  "id": "sdr",
+  "name": "SDR",
+  "description": "Your Sales Development Rep. Prospects, researches leads, drafts outreach in your voice, runs sequences, triages replies, and books warm meetings — handing them off to you at the meeting-booked moment. Never sends without approval; never closes.",
+  "icon": "UserRound",
+  "category": "business",
+  "author": "Houston Role Agents",
+  "tags": ["sales", "sdr", "bdr", "outbound", "prospecting", "outreach"],
+  "tabs": [
+    { "id": "overview", "label": "Overview", "customComponent": "SdrDashboard" },
+    { "id": "activity", "label": "Activity", "builtIn": "board", "badge": "activity" },
+    { "id": "files", "label": "Files", "builtIn": "files" },
+    { "id": "integrations", "label": "Integrations", "builtIn": "integrations" }
+  ],
+  "defaultTab": "overview",
+  "agentSeeds": {
+    "leads.json": "[]",
+    "sequences.json": "[]",
+    "replies.json": "[]",
+    "meetings.json": "[]"
+  }
+}
