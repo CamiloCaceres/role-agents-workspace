@@ -74,10 +74,13 @@ Founder doing their own hiring pre-Series-A / first Talent or People hire / hiri
 - SaaS analogues: Gem, Ashby, Greenhouse, Lever, hireEZ, Welcome, Rippling ATS.
 - Pain sources: r/recruiting, r/recruitinghell, LinkedIn talent community, HR leaders on Twitter.
 
-### `onboard-me` — exactly 3 questions
-1. "Paste the JDs for your currently-open roles, or describe them in one line each."
-2. "What's your comp philosophy — leveling framework, bands, equity approach?"
-3. "Paste 2 recent outreach emails and 1 rejection you've sent — I'll match your voice."
+### `onboard-me` — modalities preamble + 3 questions
+
+Opens with the standard **modalities preamble** (see `role-agent-guide.md` — paste / file / URL / connected-apps-via-Composio). Then:
+
+1. "Paste the JDs for your currently-open roles, describe them in one line each, *or — best option — point me at your ATS (Greenhouse, Lever, Ashby) via Composio and I'll pull them, OR drop a Notion/Drive link to your roles doc.*"
+2. "What's your comp philosophy — leveling framework, bands, equity approach? *Paste, or drop your leveling doc / comp bands spreadsheet / Notion comp page.*"
+3. "Paste 2 recent outreach emails and 1 rejection you've sent. *Best option: if you've connected Gmail/Outlook via Composio, tell me — I'll pull 20-30 recent candidate messages for a tighter voice calibration.*"
 
 ### Config files (all populated at runtime)
 - `config/profile.json` — `{ userName, company, team, onboardedAt, status }`
@@ -157,10 +160,13 @@ Founder doing their own books pre-finance-hire / fractional Controller / CFO del
 - SaaS analogues: QuickBooks, Xero, Pilot, Bench, Ramp, Mercury.
 - Pain sources: r/Accounting, r/Bookkeeping, founder-focused finance newsletters (Runway, Mostly Metrics), Mercury + Ramp blogs.
 
-### `onboard-me` — 3 questions
-1. "What accounting system do you use, and can you paste your top-level chart of accounts (or describe your account structure)?"
-2. "What's your fiscal year-end, monthly close cadence, and materiality threshold (the dollar amount below which you don't sweat precision)?"
-3. "Any non-obvious categorization rules I should know (e.g. 'all Amazon is Office Supplies unless keyword says otherwise', 'AWS is COGS not Infra')?"
+### `onboard-me` — modalities preamble + 3 questions
+
+Opens with the standard **modalities preamble** (see `role-agent-guide.md`). Then:
+
+1. "What accounting system do you use, and what's your chart of accounts? *Best option: if you've connected QuickBooks / Xero / NetSuite via Composio, tell me — I'll pull the COA directly. Otherwise paste, or drop a COA export (.csv / .xlsx / .pdf).*"
+2. "Fiscal year-end, monthly close cadence, and materiality threshold (the dollar amount below which you don't sweat precision). *Paste, or drop your close checklist / accounting policy doc if you have one.*"
+3. "Any non-obvious categorization rules? (e.g. 'Amazon is Office Supplies unless keyword says otherwise', 'AWS is COGS not Infra'). *Paste, drop your categorization rules doc, or if you have a spreadsheet of known vendors → default categories, share the link.*"
 
 ### Config files
 - `config/profile.json`
@@ -237,10 +243,13 @@ Founder or exec with no human EA / busy operator wearing multiple hats / small-t
 - SaaS analogues: Motion, Clockwise, Reclaim, Superhuman, Clara, xAI.
 - Pain sources: r/productivity, Superhuman / Clockwise blogs, every founder Twitter thread about inbox zero.
 
-### `onboard-me` — 3 questions
-1. "What's your ideal week structure — focus blocks, meeting days, no-meeting days, working hours, timezone?"
-2. "Who are your top 5-10 VIPs I should never make wait (investors, co-founders, key customers, spouse, direct reports)?"
-3. "Paste 3 typical emails you send — a short accept, a decline-with-reason, and a delay request. I'll match your voice."
+### `onboard-me` — modalities preamble + 3 questions
+
+Opens with the standard **modalities preamble** (see `role-agent-guide.md`). Then:
+
+1. "Your ideal week structure — focus blocks, meeting days, no-meeting days, working hours, timezone. *Paste, or — best option — if your calendar is connected via Composio, I can scan your last 30 days and infer the patterns; you just correct them.*"
+2. "Your top 5-10 VIPs I should never make wait (investors, co-founders, key customers, spouse, direct reports). *Paste names/emails, drop a list file, or point me at a Contacts source you've connected (iCloud/Google Contacts/HubSpot).*"
+3. "I need to match your writing voice. *Best option: tell me you've connected Gmail / Outlook and I'll pull 20-30 recent sent messages. Otherwise paste 3 typical emails — a short accept, a decline-with-reason, a delay request.*"
 
 ### Config files
 - `config/profile.json`
@@ -314,10 +323,13 @@ Early-stage founder doing their own marketing / first PMM hire / head of product
 - SaaS analogues: Klue, Crayon, Loopio, Gong, Similarweb.
 - Pain sources: Product Marketing Alliance, April Dunford's content, Lenny's Newsletter PMM posts.
 
-### `onboard-me` — 3 questions
-1. "What are you launching next (or recently launched) and who's it for?"
-2. "Who are your top 3 competitors and what's your differentiated position in one line?"
-3. "Paste your current elevator pitch and one recent launch post — I'll match tone and carry the positioning forward."
+### `onboard-me` — modalities preamble + 3 questions
+
+Opens with the standard **modalities preamble** (see `role-agent-guide.md`). Then:
+
+1. "What are you launching next (or recently launched) and who's it for? *Paste a description, drop a PRD / launch plan, or point me at the launch doc in Notion / Drive / Linear.*"
+2. "Your top 3 competitors and your differentiated position in one line. *Paste, drop a positioning doc or battlecard, or — best option — give me their website URLs and your website URL; I'll do the initial analysis and you correct it.*"
+3. "Your current elevator pitch + one recent launch post. *Paste, drop the pitch deck / launch email, or give me URLs to the product page + the latest blog/launch post.*"
 
 ### Config files
 - `config/profile.json`
@@ -395,10 +407,13 @@ Founder doing their own content / marketing manager wearing multiple hats / solo
 - SaaS analogues: Grammarly Business, Copy.ai, Jasper, Surfer SEO, Clearscope, Frase, Ahrefs.
 - Pain sources: r/SEO, r/content_marketing, Every, Lenny's content posts.
 
-### `onboard-me` — 3 questions
-1. "What's your content mission in one sentence — who reads it, why, what should they do after?"
-2. "What's your publishing cadence and primary channels (blog, newsletter, LinkedIn, YouTube)?"
-3. "Paste 2 pieces of your published content — your best one and a recent one — so I can calibrate brand voice."
+### `onboard-me` — modalities preamble + 3 questions
+
+Opens with the standard **modalities preamble** (see `role-agent-guide.md`). Then:
+
+1. "Content mission in one sentence — who reads it, why, what should they do after? *Paste, or drop your brand / content strategy doc if you have one.*"
+2. "Publishing cadence and primary channels (blog, newsletter, LinkedIn, YouTube). *Paste, or if your calendar tool (Notion, Airtable, Trello) is connected via Composio, point me at the board and I'll infer cadence.*"
+3. "Two pieces of your published content — your best + a recent one — so I can calibrate brand voice. *Best option: give me the URLs and I'll fetch. Or drop files. Or — if your CMS (WordPress, Ghost, Webflow, Substack) is connected via Composio — tell me and I'll sample 5-10 recent pieces for a richer voice model.*"
 
 ### Config files
 - `config/profile.json`
@@ -475,10 +490,13 @@ Early CS hire / account manager / founder still owning post-sale relationships /
 - SaaS analogues: Gainsight, ChurnZero, Catalyst, Totango, Vitally, Planhat.
 - Pain sources: r/CustomerSuccess, Gainsight Pulse content, CS Collective, Lincoln Murphy's writing.
 
-### `onboard-me` — 3 questions
-1. "What are your top 10-20 accounts, or describe your segments — enterprise / mid-market / SMB and which tier you focus on?"
-2. "What signals define a healthy vs. at-risk account in your world — usage depth, NPS, support ticket volume, feature adoption, executive engagement?"
-3. "What's your typical QBR structure — what sections does your best QBR pack contain?"
+### `onboard-me` — modalities preamble + 3 questions
+
+Opens with the standard **modalities preamble** (see `role-agent-guide.md`). Then:
+
+1. "Your top 10-20 accounts, or segments (enterprise / mid-market / SMB) and which tier you focus on. *Best option: if your CRM (HubSpot / Salesforce) is connected via Composio, tell me — I'll pull the account list tagged by ARR tier. Otherwise paste or drop a CSV.*"
+2. "Signals that define healthy vs. at-risk in your world — usage depth, NPS, ticket volume, feature adoption, exec engagement. *Paste, drop your health-score doc, or if you have a dashboard (Gainsight / ChurnZero / a custom Looker board) tell me what metrics live there so I can plan the progressive capture.*"
+3. "Your typical QBR structure — sections your best QBR pack contains. *Paste an outline, drop a sample QBR deck, or give me a link to one in Drive/Notion — I'll use it as the template.*"
 
 ### Config files
 - `config/profile.json`

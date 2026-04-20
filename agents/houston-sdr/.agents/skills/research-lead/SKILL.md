@@ -12,6 +12,18 @@ dossier before I touch them. Also run me automatically when another
 skill (`draft-outreach`, `book-meeting`) needs dossier context and
 `leads/{slug}/lead.json` is missing.
 
+## Context shortcuts (the user can give me more than just a name)
+
+If the user has more than "name + company," remind them I can use it:
+- **A LinkedIn URL** — I'll fetch their profile.
+- **The company website URL** — I'll scrape positioning + news + hiring.
+- **A file** — a CSV / vCard / dossier doc they already have.
+- **A connected CRM via Composio** — if they've linked HubSpot /
+  Salesforce / Attio, I'll pull any existing record first so I don't
+  duplicate effort.
+Mention this once if the user's input was sparse ("research Acme"),
+then proceed with whatever they gave.
+
 ## Steps
 
 1. **Resolve the lead.** Identify name + company from the user's input.

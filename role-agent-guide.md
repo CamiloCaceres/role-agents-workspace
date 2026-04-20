@@ -287,12 +287,14 @@ Rules:
 
 ### `onboard-me` skill (mandatory — template)
 
+Every `onboard-me` MUST open with a **modalities preamble** before the first question. Users — especially non-dev ones — don't know that "paste in chat" is one of several options. The preamble teaches them what the agent can actually read, so they pick the most accurate source for each question.
+
 `.agents/skills/onboard-me/SKILL.md`:
 
 ```markdown
 ---
 name: onboard-me
-description: Use when the user explicitly asks to "onboard" me or "set me up," or on the very first real task when no config files exist yet — run a tight 90-second interview (3 questions maximum) to capture the minimum context needed to start working, then write to `config/`.
+description: Use when the user explicitly asks to "onboard" me or "set me up," or on the very first real task when no config files exist yet — open with a modalities preamble that teaches the user what I can read (paste / file / URL / connected apps via Composio), then run a tight 90-second interview (3 questions maximum) to capture the minimum context needed to start working, then write to `config/`.
 ---
 
 # Onboard Me
@@ -305,21 +307,53 @@ missing. Only run ONCE unless explicitly re-invoked.
 
 ## Principles
 
+- **Lead with the modalities preamble.** Users don't know what I can read
+  unless I tell them. Show them the four ways to give me context before the
+  first question.
 - Max 3 questions. Get the minimum to start working, not everything.
-- Conversational, one question at a time.
+- For each question, suggest the **most accurate** modality available. Rank:
+  connected app (Composio) > file/URL > paste. The user can still choose any.
+- Conversational — one question at a time, wait for the answer, write, move on.
 - Any question the user skips, I note as "TBD" in config and will ask again
   just-in-time when a skill hits it.
 
 ## Steps
 
-1. Ask question 1: {role-specific MVP question — e.g. for SDR, "In one line, who's your ICP?"}
-2. Write the answer to `config/{file}.json`.
-3. Ask question 2: {second MVP question — e.g. "What's your product in one line?"}
+0. **Modalities preamble (send this BEFORE question 1):**
+
+   > "Before we start — for each question below, you can give me context in
+   > any of these ways, whichever is easiest:
+   >
+   > - **Paste it in chat** — always works.
+   > - **Drop a file** — .txt / .md / .pdf / .docx / .csv; I'll read it.
+   > - **Give me a URL** — your website, a public Notion page, a Google Doc
+   >   with a share link, a blog post — I'll fetch it.
+   > - **Point me at a connected app** — if you've connected anything in
+   >   Houston's Integrations tab (Gmail, Drive, Notion, Slack, HubSpot,
+   >   etc.) via Composio, tell me and I'll pull directly.
+   >
+   > I'll suggest the best option for each question. Ready?"
+
+1. **Question 1 ({topic}):** Phrase the ask + the best-option suggestion.
+   Example for SDR ICP: "In one line, who's your ICP (industry, company size,
+   role you sell to)? *Best option: paste here, OR give me a URL to your
+   pricing / about page — I'll infer from it.*"
+2. Parse the answer (or fetch the URL / read the file / call the Composio tool),
+   write `config/{file}.json`.
+3. **Question 2 ({topic}):** Same pattern. Name the best modality. Example
+   for SDR product: "In one line, what do you sell? *Best option: give me your
+   website URL — I'll extract the pitch. Or drop a deck / one-pager.*"
 4. Write.
-5. Ask question 3: {third MVP question — e.g. "Paste 2 emails you've recently sent so I can match your voice."}
-6. Write `config/voice.md`.
+5. **Question 3 (voice — almost always benefits most from a connected inbox):**
+   "Paste 2 recent emails you've sent, OR — *best option if available* —
+   tell me you've connected Gmail / Outlook via Composio and I'll pull your
+   last 20-30 sent messages for a much tighter voice calibration."
+6. If user picks the connected-inbox option, use `composio search <keyword>`
+   to discover the right tool slug and fetch. Otherwise capture pasted samples.
+   Write `config/voice.md`.
 7. Write `config/profile.json` with `{ name, onboardedAt, status: "onboarded" }`.
-8. Tell the user: "Ready. Ask me to {first-useful-action}."
+8. Tell the user: "Ready. Ask me to {first-useful-action}. I'll ask for anything
+   else just-in-time as I do real work."
 
 ## Outputs
 
@@ -330,18 +364,23 @@ missing. Only run ONCE unless explicitly re-invoked.
 
 **3 questions is the ceiling, not the target.** If you can get away with 2, do it. Everything else fills in through work.
 
+**The modalities preamble is non-negotiable.** Shipping `onboard-me` without it assumes the user knows what the agent can read — most don't. Every role agent starts this way.
+
 ### Progressive config capture (pattern for other skills)
 
-Every skill that consumes config must handle missing values gracefully:
+Every skill that consumes config must handle missing values gracefully. When asking a just-in-time question, **mention the best modality** — don't assume the user knows they can drop a file or point to a connected app:
 
 ```markdown
 ## Steps
 
 1. Read `config/icp.json`. If missing or incomplete, ask the user:
-   "Quick — in one line, who's your ICP?" Write the answer to `config/icp.json`.
-   Continue.
+   "Quick — in one line, who's your ICP? *Paste it, or give me a URL to your
+   pricing/about page and I'll infer it.*" Write the answer to
+   `config/icp.json`. Continue.
 2. Read `config/voice.md`. If missing, ask: "Paste one recent email you've sent
-   so I can match your voice." Write. Continue.
+   so I can match your voice — *or, if you've connected your inbox via
+   Composio, just say so and I'll pull recent sent messages directly*."
+   Write. Continue.
 3. {actual skill work}
 ```
 

@@ -18,7 +18,8 @@ explicit user action.
    primary ICP from `config/icp.json`. Confirm with the user in one
    sentence: "Designing for {audience} — correct?" If `config/icp.json`
    is missing, ask ONE question: "Who's this sequence for? (industry,
-   size, role)" and continue.
+   size, role). *Paste, give me a URL to a landing page / pricing page
+   aimed at this audience, or drop an ICP doc.*" and continue.
 2. **Check the library.** Read `config/sequences-library.json`. If a
    saved template matches the audience, offer it to the user as a
    starting point: "You have a saved '{template.name}' that targets

@@ -18,12 +18,16 @@ send.
    run `research-lead` first — I need the role, company stage, and
    pain hypotheses before I can personalize.
 2. **Read voice.** Read `config/voice.md`. If missing, ask the user
-   ONE question: "Paste one recent outreach you've sent so I can
-   match your voice." Write the answer to `config/voice.md` and
-   continue.
+   ONE question: "Quick — I need a voice sample. *Best option: if
+   you've connected Gmail / Outlook via Composio, tell me and I'll
+   pull your last 20-30 sent messages. Otherwise paste one recent
+   outreach, or drop a .eml / .txt file with a few samples.*"
+   Capture whichever modality the user picks, write to
+   `config/voice.md`, continue.
 3. **Read product context.** Read `config/product.json`. If missing
    `oneLinePitch`, ask ONE question: "One-line pitch for your
-   product?" Write and continue.
+   product? *Paste it, give me your website URL and I'll extract it,
+   or drop a pitch deck / one-pager.*" Write and continue.
 4. **Pick the channel.** Default email. If the user asked for
    LinkedIn, further disambiguate: connect note (≤300 chars) or
    InMail (treat like a short email). Call opener = spoken script
