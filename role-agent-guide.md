@@ -287,7 +287,12 @@ Rules:
 
 ### `onboard-me` skill (mandatory — template)
 
-Every `onboard-me` MUST open with a **modalities preamble** before the first question. Users — especially non-dev ones — don't know that "paste in chat" is one of several options. The preamble teaches them what the agent can actually read, so they pick the most accurate source for each question.
+Every `onboard-me` MUST open with a **scope + modality preamble** before the first question. The preamble has two jobs:
+
+1. **Tell the user what I'll ask about** (the three topics, by name — "Your ICP, Your Product, Your Voice"). A generic "let me gather context" is too abstract; users don't know what to prepare.
+2. **Tell the user the easiest modality per topic** (best option ranked first — usually connected-app > URL/file > paste). A generic list of "you can paste or drop a file" leaves them guessing.
+
+Combining these means the preamble IS the roadmap. The user sees the whole journey upfront, can grab a deck or a URL they want to share, and the follow-up questions become short ("Great — your product + pitch?") because the menu is already known.
 
 `.agents/skills/onboard-me/SKILL.md`:
 
@@ -307,53 +312,44 @@ missing. Only run ONCE unless explicitly re-invoked.
 
 ## Principles
 
-- **Lead with the modalities preamble.** Users don't know what I can read
-  unless I tell them. Show them the four ways to give me context before the
-  first question.
+- **Lead with a scope + modality preamble.** Users need to see (a) what I'll
+  ask about AND (b) the easiest way to give me each — BEFORE the first
+  question. "Give me context" in the abstract is too vague.
 - Max 3 questions. Get the minimum to start working, not everything.
-- For each question, suggest the **most accurate** modality available. Rank:
-  connected app (Composio) > file/URL > paste. The user can still choose any.
-- Conversational — one question at a time, wait for the answer, write, move on.
-- Any question the user skips, I note as "TBD" in config and will ask again
-  just-in-time when a skill hits it.
+- **One question at a time after the preamble.** The preamble does the heavy
+  lifting; follow-up questions are short ("Got it — your product + pitch?")
+  because the user already knows the menu.
+- Rank modalities: connected app (Composio) > file/URL > paste.
+- Any skipped question: note "TBD" and ask again just-in-time when needed.
 
 ## Steps
 
-0. **Modalities preamble (send this BEFORE question 1):**
+0. **Scope + modality preamble — the FIRST message (names each topic AND its best modality, then rolls into Q1):**
 
-   > "Before we start — for each question below, you can give me context in
-   > any of these ways, whichever is easiest:
+   > "Let's get you set up — 3 quick questions, about 90 seconds. Here's what
+   > I need to know and the easiest way to share each:
    >
-   > - **Paste it in chat** — always works.
-   > - **Drop a file** — .txt / .md / .pdf / .docx / .csv; I'll read it.
-   > - **Give me a URL** — your website, a public Notion page, a Google Doc
-   >   with a share link, a blog post — I'll fetch it.
-   > - **Point me at a connected app** — if you've connected anything in
-   >   Houston's Integrations tab (Gmail, Drive, Notion, Slack, HubSpot,
-   >   etc.) via Composio, tell me and I'll pull directly.
+   > 1. **{Topic 1}** — {one-line of what this is}. {Best modality + fallbacks}.
+   > 2. **{Topic 2}** — {one-liner}. {Best modality + fallbacks}.
+   > 3. **{Topic 3}** — {one-liner}. {Best modality + fallbacks — voice
+   >    topics usually favor a connected inbox via Composio}.
    >
-   > I'll suggest the best option for each question. Ready?"
+   > For any of these you can also drop files, share public URLs, or point
+   > me at a connected app. Let's start with #1 — {Q1 inline}?"
 
-1. **Question 1 ({topic}):** Phrase the ask + the best-option suggestion.
-   Example for SDR ICP: "In one line, who's your ICP (industry, company size,
-   role you sell to)? *Best option: paste here, OR give me a URL to your
-   pricing / about page — I'll infer from it.*"
-2. Parse the answer (or fetch the URL / read the file / call the Composio tool),
-   write `config/{file}.json`.
-3. **Question 2 ({topic}):** Same pattern. Name the best modality. Example
-   for SDR product: "In one line, what do you sell? *Best option: give me your
-   website URL — I'll extract the pitch. Or drop a deck / one-pager.*"
-4. Write.
-5. **Question 3 (voice — almost always benefits most from a connected inbox):**
-   "Paste 2 recent emails you've sent, OR — *best option if available* —
-   tell me you've connected Gmail / Outlook via Composio and I'll pull your
-   last 20-30 sent messages for a much tighter voice calibration."
-6. If user picks the connected-inbox option, use `composio search <keyword>`
-   to discover the right tool slug and fetch. Otherwise capture pasted samples.
-   Write `config/voice.md`.
-7. Write `config/profile.json` with `{ name, onboardedAt, status: "onboarded" }`.
-8. Tell the user: "Ready. Ask me to {first-useful-action}. I'll ask for anything
-   else just-in-time as I do real work."
+1. **Capture topic 1** based on the modality the user picked — parse paste,
+   fetch URL, read file, or call the Composio tool (`composio search` to
+   discover the right slug). Write `config/{file}.json`. Acknowledge briefly
+   and roll into Q2.
+2. **Capture topic 2** same pattern. Roll into Q3.
+3. **Capture topic 3** same pattern. For voice, if the user took the
+   connected-inbox route, use `composio search` to find the sent-folder
+   list/search tool and fetch 20–30 recent sent messages; extract tone cues
+   and write 3–5 verbatim samples to `config/voice.md`.
+4. Write `config/profile.json` with `{ name, onboardedAt, status: "onboarded" }`.
+   Use `"partial"` if any question was skipped.
+5. Hand off: "Ready. Try: {first-useful-action}. I'll ask for anything else
+   just-in-time."
 
 ## Outputs
 
@@ -362,9 +358,9 @@ missing. Only run ONCE unless explicitly re-invoked.
 - `config/profile.json`
 ```
 
-**3 questions is the ceiling, not the target.** If you can get away with 2, do it. Everything else fills in through work.
+**3 questions is the ceiling, not the target.** If you can get away with 2, do it.
 
-**The modalities preamble is non-negotiable.** Shipping `onboard-me` without it assumes the user knows what the agent can read — most don't. Every role agent starts this way.
+**The scope + modality preamble is non-negotiable.** Shipping `onboard-me` that asks for "context" without naming the topics AND the best modality per topic produces confused users — they don't know what to prepare. Every role agent starts this way.
 
 ### Progressive config capture (pattern for other skills)
 
