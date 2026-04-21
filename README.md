@@ -23,6 +23,9 @@ Drafts launch briefs, builds battlecards, writes sales one-pagers, analyzes win-
 ### Recruiter — sourcing + screening + coordination
 Sources candidates with proof-of-work signals, scores openness-to-move, drafts outreach in your voice, runs structured screens, coordinates interviews, and prepares handoff packs for hiring managers. Never extends offers or rejects without approval.
 
+### Data Analyst — SQL + metrics + anomalies + experiments
+Writes SQL against your warehouse, tracks core metrics daily, detects anomalies against 7d/28d baselines, analyzes experiments with lift / significance / guardrails, drafts dashboard specs for your BI tool, and triages inbound ad-hoc data asks into a prioritized queue. Read-only against your warehouse; never drops data; never runs expensive queries without warning; never claims more than the data supports. Skills: `onboard-me`, `answer-question`, `track-metric`, `detect-anomaly`, `analyze-experiment`, `build-dashboard-spec`, `audit-data-quality`, `triage-ask`, `document-query`, `daily-standup`.
+
 ## Design rules (built in)
 
 - **One agent = one job title.** If you'd put it on LinkedIn, it's a role. "Marketing" is not a role. "PMM" is.
@@ -46,6 +49,7 @@ First-run: every agent starts with empty indexes (seeded via `agentSeeds`), so d
 **Executive Assistant:** `Onboard me` · `Give me my priorities for today` · `Brief me on my next meeting`
 **PMM:** `Onboard me` · `Build a battlecard for {competitor}` · `Draft the launch brief for {feature}`
 **Recruiter:** `Onboard me` · `Source candidates for {role}` · `Screen {candidate} for {role}`
+**Data Analyst:** `Onboard me` · `How many signups this week?` · `Start tracking MRR daily` · `How did the checkout experiment do?`
 
 ## Structure
 
@@ -60,7 +64,8 @@ role-agents-workspace/
     ├── houston-customer-support-rep/
     ├── houston-ea/
     ├── houston-pmm/
-    └── houston-recruiter/
+    ├── houston-recruiter/
+    └── houston-data-analyst/
 ```
 
 Each agent directory contains `houston.json`, `CLAUDE.md`, `bundle.js`, `icon.png`, `data-schema.md`, `README.md`, and `.agents/skills/<name>/SKILL.md`.

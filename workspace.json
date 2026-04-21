@@ -1,8 +1,9 @@
 {
   "name": "Role Agents Workspace",
-  "description": "Houston workspace of hireable role agents — each represents a single job title a human could hold (SDR, Executive Assistant, PMM, Recruiter, Customer Support Rep). Every agent is fully useful on its own: own skills, own dashboard, own data at its agent root. No cross-agent paths in default skills. External tool access flows through Composio — connect whatever you use (Gmail, Slack, CRM, calendar, etc.) and the agents discover tool slugs via `composio search`. Install the whole workspace to staff up a solo founder's back office, or extract any single agent into its own installation.",
+  "description": "Houston workspace of hireable role agents — each represents a single job title a human could hold (SDR, Executive Assistant, PMM, Recruiter, Customer Support Rep, Data Analyst). Every agent is fully useful on its own: own skills, own dashboard, own data at its agent root. No cross-agent paths in default skills. External tool access flows through Composio — connect whatever you use (Gmail, Slack, CRM, calendar, warehouse, etc.) and the agents discover tool slugs via `composio search`. Install the whole workspace to staff up a solo founder's back office, or extract any single agent into its own installation.",
   "agents": [
     "houston-customer-support-rep",
+    "houston-data-analyst",
     "houston-ea",
     "houston-pmm",
     "houston-recruiter",
