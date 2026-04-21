@@ -1,0 +1,24 @@
+{
+  "id": "content-editor",
+  "name": "Content Editor",
+  "description": "Your AI Content Editor. Plans the calendar, edits drafts to your brand voice, writes SEO briefs with an AI-citation angle, runs the publishing checklist, repurposes published pieces into derivatives, and surfaces stale content for refresh. Never publishes without approval; never plagiarizes.",
+  "icon": "FileText",
+  "category": "business",
+  "author": "Houston Role Agents",
+  "tags": ["marketing", "content", "editorial", "seo", "editor", "publishing", "repurposing"],
+  "tabs": [
+    { "id": "overview", "label": "Overview", "customComponent": "ContentEditorDashboard" },
+    { "id": "activity", "label": "Activity", "builtIn": "board", "badge": "activity" },
+    { "id": "files", "label": "Files", "builtIn": "files" },
+    { "id": "integrations", "label": "Integrations", "builtIn": "integrations" }
+  ],
+  "defaultTab": "overview",
+  "agentSeeds": {
+    "calendar.json": "[]",
+    "drafts.json": "[]",
+    "published.json": "[]",
+    "repurposing-queue.json": "[]",
+    "refresh-queue.json": "[]",
+    "keyword-tracker.json": "[]"
+  }
+}
