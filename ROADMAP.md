@@ -39,6 +39,8 @@ The next six role agents to build, in recommended order. Each section is a **com
 
 Build sequentially unless two are fully independent. Do not build #4 before #1 — each lesson from the prior agent tightens the template.
 
+**Also fully specced below (build order TBD):** Agent 7 (Chief of Staff) and Agent 8 (Data Analyst). Ready to build any time — slot in after the first 6, or earlier if a specific need pulls them forward.
+
 ---
 
 ## Onboarding philosophy — the scope + modality preamble
@@ -638,6 +640,181 @@ Opens with the standard **modalities preamble** (see `role-agent-guide.md`). The
 
 ---
 
+## Agent 7 — Chief of Staff
+
+### Identity
+- **Slug:** `chief-of-staff`
+- **Dir name:** `houston-chief-of-staff`
+- **Target path:** `/Users/milo/dev/taxflow/houston-skills/role-agents-workspace/agents/houston-chief-of-staff/`
+- **Icon (Lucide):** `Compass`
+- **Category:** `business`
+- **Color (icon.png):** slate `#475569`
+- **Description:** "Your AI Chief of Staff. Rolls up cross-team status, tracks OKRs, preps board packs and investor updates, logs decisions, surfaces bottlenecks, and drafts comms in the CEO voice. The connective tissue for a founder-CEO without a human CoS. Never makes strategic decisions; never sends external comms without approval."
+
+### Persona served
+Founder / CEO at Series A-C (30-200 people) who needs the scaffolding a Chief of Staff provides but hasn't hired one yet. Or existing CoS who wants leverage on the operational half of the role so they focus on the strategic half.
+
+### Scope boundary
+- **IS:** cross-team status roll-ups, exec-meeting prep, OKR tracking, board pack prep, investor update drafting, decision logging, bottleneck identification, CEO comms drafting.
+- **IS NOT:** an EA (calendar/inbox triage — that's the EA agent's job), a Data Analyst (deep SQL — hand off), a decision-maker (CEO decides; CoS advises), a people manager (doesn't own hiring / performance / comp decisions).
+
+### Monday morning if this works
+"I start my week with a cross-team status rollup. I know which OKRs are off-track and why. Board prep is queued without me building it from scratch. Decisions pending my input are surfaced — nothing falls through the cracks."
+
+### Hard nos
+- Never makes strategic decisions unilaterally — CoS drafts, CEO decides.
+- Never shares exec-level information (comp, performance, strategy) externally without approval.
+- Never impersonates the CEO in external comms without explicit per-message approval.
+- Always flags sensitive people matters (performance, comp, exits) with discretion.
+- Preserves confidentiality — exec-level data stays at the agent root and isn't leaked to non-exec connected channels.
+
+### Research pointers
+- SaaS analogues: Notion (exec spaces), Linear (initiatives), Lattice / 15Five / Mooncamp (OKRs), Airtable (trackers), Quip / Coda (decision logs), Carta (cap table context for board prep), Diligent (board portal).
+- Pain sources: The Chief of Staff Association, Modern CoS community, First Round Review CoS content, Dan Ciampa's CoS writings, Scott Amyx's CoS podcast, Operations.io community.
+
+### `onboard-me` — scope + modality preamble + 3 questions
+
+Opens with the standard **scope + modality preamble** (see `role-agent-guide.md` — names all 3 topics + best modality per topic in one message, then rolls into Q1). Then:
+
+1. "Your company context — stage, headcount, and top 3 strategic priorities this quarter or year. *Paste a description, drop your strategy doc / board deck / OKR kick-off, or — best — if you have a company-wiki strategy page (Notion / Confluence) connected via Composio, share the link and I'll extract from it.*"
+2. "Your leadership team — who sits on the exec team and what each owns. *Paste a brief roster, drop an org chart / leadership page, or — best — if you've connected Rippling / Gusto / BambooHR via Composio, tell me and I'll pull the exec roster directly.*"
+3. "Your OKRs or current objectives — what does 'winning this quarter' look like, measurably? *Paste the OKR list, drop the OKR doc, or if your OKR tool (Lattice / 15Five / Mooncamp / a Notion OKR board) is connected via Composio, point me at the workspace and I'll pull the current state.*"
+
+### Config files
+- `config/profile.json` — userName, company, stage, headcount, onboardedAt, status
+- `config/leadership-team.json` — `[{ name, role, email, domain, directReports }]`
+- `config/strategic-priorities.json` — `{ horizon: "quarter" | "year", themes: [{ id, title, owner, summary }] }`
+- `config/okrs.json` — `[{ id, objective, keyResults: [{ id, metric, target, current, owner, cadence }], period }]`
+- `config/meeting-cadence.json` — exec meeting types + frequency, board meetings, offsites, investor updates
+- `config/decision-framework.md` — who decides what (RACI-ish), when CEO weighs in
+- `config/voice.md` — CEO voice samples for comms drafting (shared with other drafting roles)
+
+### Domain data
+- `initiatives.json` (index) — `[{ id, slug, title, owner, status: "on-track" | "at-risk" | "off-track", startedAt, targetDate, linkedOkrIds, lastStatusAt }]`
+- `initiatives/{slug}/init.json` — full initiative detail, history, risks, asks, cross-team dependencies
+- `initiatives/{slug}/status.md` — latest status report, overwritten per update
+- `status-rollups/{yyyy-mm-dd}/rollup.md` — weekly exec-level rollup
+- `decisions.json` (index) — `[{ id, slug, title, status: "pending" | "decided", decidedBy, decidedAt, considered: string[], rationale }]`
+- `decisions/{slug}/decision.md` — full decision record (ADR-style) with alternatives considered + trade-offs
+- `board-packs/{yyyy-qq}/board-pack.md` — quarterly board pack draft
+- `board-packs/{yyyy-qq}/investor-update.md` — monthly or quarterly investor update draft
+- `okr-tracker.json` — snapshots of OKR progress over time for trend visualization
+- `bottlenecks.json` — identified cross-team blockers with hypothesis + recommended owner
+- `comms-drafts/{slug}/draft.md` — drafts of CEO comms (all-hands, team update, sensitive people comms)
+- `daily-brief.md` — overwritten daily
+
+### Skills (10)
+1. **onboard-me** — 3 questions.
+2. **status-rollup** — Use when the user asks "what's happening across teams" / "give me the weekly rollup" OR on a scheduled cadence — read each `initiatives/{slug}/init.json`, cross-reference `config/leadership-team.json` for domain mapping, synthesize into an exec-level rollup with wins / risks / asks.
+3. **prep-exec-meeting** — Use when an exec team meeting is on the calendar within 24 hours OR the user asks to prep — assemble an agenda from open initiatives needing discussion, OKR updates that changed this week, and decisions pending CEO input; include pre-read links.
+4. **track-okr** — Use when the user asks about OKR status OR on a quarterly cadence — refresh each key result's current value (from connected metric sources where possible), classify on-track / at-risk / off-track with reason codes, surface root causes from linked initiatives.
+5. **prep-board-pack** — Use when a board meeting is 2+ weeks out OR the user asks "prep the board pack" — assemble standard sections (business update, metrics, OKRs, wins, challenges, asks) from connected data sources into `board-packs/{yyyy-qq}/board-pack.md`.
+6. **draft-investor-update** — Use when a monthly or quarterly investor update is due (per `config/meeting-cadence.json`) — assemble the narrative in CEO voice from recent initiative progress, metric movement, learnings, and asks to the investor base.
+7. **log-decision** — Use when the user says "we decided X" / "log the decision on Y" OR a significant decision is detected in meeting notes — capture what was decided, by whom, alternatives considered, trade-offs, and links to relevant initiatives. Writes a lightweight ADR-style markdown file.
+8. **identify-bottleneck** — Use when a status rollup shows a recurring theme OR the user asks "what's stuck" — surface cross-team bottlenecks with a hypothesis (why it's stuck), a proposed owner to unblock it, and the impact on OKRs or initiatives.
+9. **draft-comms** — Use when the CEO needs to send all-hands updates, team announcements, sensitive people comms, or external correspondence — draft in CEO voice from `config/voice.md`, match tone to audience (team vs. investor vs. public), never sends.
+10. **daily-standup** — Use when the user opens the app or asks for a morning brief — rank: decisions pending CEO input, OKRs off-track this week, initiatives needing intervention, meetings today with missing prep.
+
+### Dashboard
+- **Stats row (4 cards):** OKRs on-track vs. at-risk vs. off-track (split pill) · Active initiatives · Decisions pending · Board pack readiness %.
+- **Section 2:** **OKR tracker** — grid of current objectives with progress bar, current vs. target, 7-day-delta trend chip (↑/→/↓).
+- **Section 3 (two-column grid):** Left = initiatives at-risk / off-track, ranked by impact. Right = decisions pending CEO input.
+
+### Teammates (C-era)
+- **EA** (calendar + inbox — complementary exec support layer).
+- **Data Analyst** (deep metric analysis — CoS asks, Analyst answers).
+- **Controller / FP&A** (finance views for board pack).
+- **Recruiter** (exec-level hiring coordination).
+
+---
+
+## Agent 8 — Data Analyst
+
+### Identity
+- **Slug:** `data-analyst`
+- **Dir name:** `houston-data-analyst`
+- **Target path:** `/Users/milo/dev/taxflow/houston-skills/role-agents-workspace/agents/houston-data-analyst/`
+- **Icon (Lucide):** `LineChart`
+- **Category:** `business`
+- **Color (icon.png):** emerald `#059669`
+- **Description:** "Your AI Data Analyst. Writes SQL against your warehouse, tracks core metrics daily, detects anomalies, analyzes experiments, and drafts dashboard specs. Answers ad-hoc 'how's X doing' questions without you opening a BI tool. Never drops data, never runs expensive queries without warning, never makes claims the data doesn't support."
+
+### Persona served
+Founder or PM at an early-stage startup doing their own analysis / first Data Analyst drowning in ad-hoc requests / data-literate operator who wants the first 80% of analysis done so they focus on the interpretation + decision.
+
+### Scope boundary
+- **IS:** ad-hoc SQL questions, core metric tracking, anomaly detection, experiment analysis, dashboard spec writing, query documentation, incoming-ask triage, data-quality audits.
+- **IS NOT:** a Data Engineer (doesn't build pipelines, design schemas, or own the warehouse), a Data Scientist (no ML model training — descriptive + basic predictive stats are fair), a BI platform admin (doesn't own Looker/Tableau at the system level), a decision-maker (presents data; users decide).
+
+### Monday morning if this works
+"My key metrics are snapshotted daily. Anomalies surface before someone asks 'why are signups down'. Ad-hoc questions land in a queue and turn into documented queries. Experiments have clean readouts. I focus on interpretation, not writing the same SQL for the 10th time."
+
+### Hard nos
+- Never drops or modifies data (read-only against the warehouse; flag any INSERT/UPDATE/DELETE in a proposed query).
+- Never runs expensive queries without warning the user first (estimated cost + row count).
+- Never makes claims beyond what the data supports (no p-hacking, no overfitting narratives).
+- Always cites the query + run timestamp with every result.
+- Always flags data-quality concerns (nulls above threshold, stale freshness, suspect joins) with the result.
+
+### Research pointers
+- SaaS analogues: Mode, Hex, Preset, Metabase, Looker, Tableau, dbt (metric definitions), Sigma, Cube, Omni, LightDash.
+- Pain sources: Locally Optimistic community, Benn Stancil's Substack, Emilie Schario's writing, r/dataanalysis, dbt Slack, Data Engineering Podcast, Mikkel Dengsøe's writing on data quality.
+
+### `onboard-me` — scope + modality preamble + 3 questions
+
+Opens with the standard **scope + modality preamble** (see `role-agent-guide.md`). Then:
+
+1. "Your data sources — where does your data live? (Warehouse: Snowflake / BigQuery / Redshift / Databricks; product DB; SaaS connectors). *Best: if you've connected your warehouse via Composio, tell me — I'll introspect the schemas and save the table list. Otherwise paste a list of key tables, drop a schema doc, or describe the stack.*"
+2. "Your core metrics — what does 'success' mean at your company (MRR / DAU / activation / conversion / NPS / retention)? *Paste a metric tree, drop your Looker / Mode / Hex dashboard screenshot or URL, or — if you have a metric-layer tool (dbt semantic layer, Cube, LightDash) connected via Composio — point me at it and I'll pull definitions.*"
+3. "Your product and users — what do you build, who uses it, what does 'engagement' mean in your context? *Paste a short description, give me your website URL and I'll infer, or drop a product one-pager.*"
+
+### Config files
+- `config/profile.json`
+- `config/data-sources.json` — `[{ id, type: "warehouse" | "product-db" | "saas", name, connection: { via: "composio" | "described", details } }]`
+- `config/schemas.json` — introspected table list + column types per source (populated lazily on first question against a source)
+- `config/metrics.json` — `[{ id, name, definition, sqlSnippet, cadence: "daily" | "weekly", owner, thresholds: { green, yellow, red }, unit }]`
+- `config/business-context.md` — product description + user personas + what engagement means
+- `config/dashboards.json` — tracked dashboards with their metric lists
+- `config/experiments-framework.md` — statistical framework (min sample, sig threshold, minimum detectable effect, guardrails)
+
+### Domain data
+- `queries.json` (index) — `[{ id, slug, purpose, author: "agent" | "user", lastRunAt, schemaDeps, tags, costWarning }]`
+- `queries/{slug}/query.sql` — the actual SQL (read-only guardrails enforced in generation)
+- `queries/{slug}/result-latest.csv` — most recent result
+- `queries/{slug}/notes.md` — caveats, interpretation, data-quality flags
+- `metrics-daily.json` — daily metric snapshots `[{ metricId, date, value, changeVsWeekAgo, changeVs28dayAvg }]`
+- `anomalies.json` — detected anomalies `[{ id, metricId, detectedAt, baseline, observed, deviationSigma, possibleCauses, status }]`
+- `experiments.json` (index) — `[{ id, slug, hypothesis, variants, startDate, endDate, status, sampleSize }]`
+- `experiments/{slug}/readout.md` — structured analysis with lift, stat sig, confidence intervals, recommendation
+- `asks.json` — incoming ad-hoc requests queue `[{ id, requester, question, classification, status, linkedQuerySlug? }]`
+- `insights.md` — rolling weekly insight log
+- `daily-brief.md`
+
+### Skills (10)
+1. **onboard-me** — 3 questions.
+2. **answer-question** — Use when the user asks a data question ("how many signups this week", "what's retention looking like", "top 10 customers by ARR") — translate to SQL against known schemas from `config/data-sources.json`, estimate cost, warn if expensive, run via any Composio-connected warehouse, return result with caveats and save as a reusable query in `queries/{slug}/`.
+3. **track-metric** — Use when the user defines a new metric to track OR asks "start monitoring X" — write the SQL definition, snapshot current value, add to `config/metrics.json`, append to `metrics-daily.json` at the configured cadence.
+4. **detect-anomaly** — Use when `metrics-daily.json` is refreshed OR on a scheduled cadence — compare each metric's current value vs. 7-day and 28-day rolling baselines, flag deviations > 2σ or > user-defined thresholds, hypothesize possible causes from recent context (deployments, campaigns, seasonality).
+5. **analyze-experiment** — Use when an experiment ends OR the user asks "how did [test] do" — compute observed lift, statistical significance, confidence intervals, minimum detectable effect; write a structured readout to `experiments/{slug}/readout.md` with caveats and a recommendation.
+6. **build-dashboard-spec** — Use when the user asks "I want to see X regularly" OR "build me a dashboard for Y" — define the dashboard spec (metrics, cadence, visualizations, layout), write to `config/dashboards.json` along with the SQL behind each visualization.
+7. **audit-data-quality** — Use when metrics look weird OR on a quarterly cadence OR the user asks "why is this number off" — check nulls, duplicates, freshness, join consistency, referential integrity across key tables; produce a data-quality report.
+8. **triage-ask** — Use when an inbound ad-hoc question arrives via any Composio-connected channel (Slack, email, ticketing) — classify (answerable from existing queries / needs new query / needs new data / unclear), write to `asks.json`, propose approach + ETA.
+9. **document-query** — Use when an ad-hoc query produces something worth saving — capture purpose, schema deps, parameters, caveats; save to `queries/{slug}/` for future reuse.
+10. **daily-standup** — Use when the user opens the app — rank: open anomalies (by deviation), experiments awaiting readout, asks in queue, metrics that haven't refreshed on schedule, queries that broke.
+
+### Dashboard
+- **Stats row (4 cards):** Metrics tracked · Anomalies open · Asks in queue · Experiments running.
+- **Section 2:** **Core metrics** — grid of mini-charts (sparklines via inline SVG) showing the last 30 days per tracked metric with current value + delta vs. prior period (green/red chip).
+- **Section 3 (two-column grid):** Left = open anomalies ranked by deviation. Right = asks queue (newest first) with classification chip.
+
+### Teammates (C-era)
+- **Chief of Staff** (strategic data questions — CoS asks, Analyst answers).
+- **CSM** (usage-signal analysis feeds health scoring).
+- **PMM** (growth experiment analysis, messaging tests).
+- **Controller / FP&A** (financial modeling input).
+
+---
+
 ## How to dispatch a build
 
 For any of the above, an orchestrator session follows the role-agent-guide.md phase workflow:
@@ -663,18 +840,19 @@ Every agent built must pass:
 - CLAUDE.md between 50-100 lines (pointer style)
 - `agentSeeds` covers every file `bundle.js` reads at mount
 
-## After these 6
+## After these 8
 
 The next candidates to plan (not yet specced):
 - **AE Assistant** (prep + follow-up + note-taking; full AE is out of scope)
 - **SEO Specialist** (audits + keyword research + internal-linking)
 - **Paid Ads Manager** (campaign setup + creative rotation + spend monitoring)
 - **Controller** (Bookkeeper tier-up: reporting, compliance, AP/AR oversight)
+- **FP&A Analyst** (budgets, forecasts, board-metric ownership)
 - **Technical Writer** (docs, release notes, API refs)
 - **Paralegal** (role-form that supersedes the legal workspace)
-- **Sales Engineer** (security questionnaires + RFP drafting — slot natural)
+- **Sales Engineer** (security questionnaires + RFP drafting)
 - **Onboarding Specialist** (first-90-days customer onboarding, pairs with CSM)
-- **Data Analyst** (SQL + dashboards + ad-hoc insights)
-- **Chief of Staff** (cross-team status + OKR tracking)
+- **People Ops** (onboarding paperwork, benefits Q&A, policy dissemination)
+- **Community Manager** (forum moderation, Discord/Slack engagement, ambassador programs)
 
-That's a 20-agent catalog target. Once you have ~10, the "hire a team" composition story starts to write itself.
+That's a ~20-agent catalog target. Once you have ~10, the "hire a team" composition story starts to write itself.
