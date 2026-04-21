@@ -86,6 +86,97 @@ houston-skills/
 
 When you build a new role, create it at **`/Users/milo/dev/taxflow/houston-skills/role-agents-workspace/agents/houston-{role-slug}/`** and commit to the workspace repo. Do **not** initialize a nested git repo inside the agent directory — the workspace is the single source of truth, which makes testing and iterating across agents fast (one `git pull`, no submodule choreography).
 
+## Onboarding philosophy — the scope + modality preamble
+
+Every role agent opens its `onboard-me` skill with a **scope + modality preamble**. This is the first message the user sees. It has two jobs that must happen together:
+
+1. **Name the topics the agent will ask about** — by name (e.g. "Your ICP · Your product · Your voice"), not the abstract word "context". Tells the user what to prepare.
+2. **State the best modality per topic** — ranked: connected app (Composio) > file/URL > paste. Tells the user the easiest path for each ask.
+
+Combined, the preamble IS the roadmap. The user sees the whole journey in one message, can grab a pitch deck or confirm a connected inbox before answering, and Q2/Q3 become short ("Got it — your product + pitch?") because the menu is already known.
+
+### Canonical shape
+
+```
+Let's get you set up — 3 quick questions, about 90 seconds. Here's what
+I need to know and the easiest way to share each:
+
+1. **{Topic 1}** — {one-line scope}. {Best modality + fallbacks}.
+2. **{Topic 2}** — {one-liner}. {Best modality + fallbacks}.
+3. **{Topic 3}** — {one-liner}. {Best modality + fallbacks — voice topics
+   usually favor a connected inbox via Composio}.
+
+For any of these you can also drop files, share public URLs, or point me
+at a connected app (Integrations tab). Let's start with #1 — {Q1 inline}?
+```
+
+The preamble ends by rolling directly into Q1 so the user can just answer.
+
+### Why this matters
+
+A generic "give me context" preamble leaves the user guessing what to share — they paste, under-share, or ask "what do you need?" and waste a turn. The scope-first preamble makes the first message a complete plan of attack. The full `onboard-me` SKILL.md template below (see "File specs → `onboard-me` skill") encodes this pattern step-by-step.
+
+## Tooling philosophy — Composio, progressive capture, modality ranking
+
+Every role agent builder must internalize this before writing skills. These rules apply to the domain skills too, not just `onboard-me`.
+
+### 1. Composio is the only external transport
+
+- Every external tool — Gmail, Drive, Notion, Slack, HubSpot, Salesforce, Apollo, QuickBooks, Xero, DocuSign, ATS systems, CMS, BI tools — is reached through Composio.
+- Skills describe **what** to fetch or send, never **which tool**. Say "via any Composio-connected inbox" — not "via Gmail."
+- Discover tool slugs at runtime with `composio search <keyword>`. Never hardcode slugs in a skill body.
+- If a connection is missing, the skill tells the user which category to link and stops — no silent workarounds.
+- The same skill file works for any user regardless of their stack.
+
+### 2. Modality ranking — best-available wins
+
+For any user input, rank the four input modalities by accuracy and prefer the highest-available:
+
+1. **Connected app (Composio)** — pulls directly; no re-typing, no stale paste; richest signal (e.g. 20-30 voice samples vs. 2 pasted ones).
+2. **File drop** — structured, complete, already written.
+3. **URL** — the user's own doc, publicly reachable.
+4. **Paste** — always works, lowest fidelity.
+
+Every `onboard-me` question and every just-in-time capture question names the best-available modality up front. Don't default to "paste" — it trains users to think paste is the only option.
+
+### 3. Progressive config capture — learn by doing
+
+Agents do NOT front-load onboarding past 3 questions. Everything else fills in just-in-time as the agent does real work.
+
+**Pattern every skill must implement:**
+
+```markdown
+## Steps
+
+1. Read `config/{file}.json`. If missing or incomplete, ask the user
+   ONE targeted question with the best modality hint. Write the answer
+   and continue.
+2. {actual skill work}
+```
+
+**Why:** day-1 usable with defaults. Config accumulates only as it's needed. The user is never asked about something before it matters. A skill that would need pricing details doesn't ask about pricing until the first time it drafts pricing language.
+
+### 4. Config vs domain data
+
+Two kinds of data at every agent's root:
+
+- **`config/`** — what the agent has **learned about the user**: ICP, product, voice, chart of accounts, leveling bands, brand voice, hiring plan. Populated by `onboard-me` + progressive capture. Never shipped in the repo.
+- **Flat top-level JSON + per-entity subfolders** — what the agent has **produced for the user**: leads, drafts, reviews, contracts, invoices, matters. Populated by domain skills.
+
+This separation is the difference between *who the user is* and *what the agent has done*. Makes export/backup/migration clean.
+
+### 5. Voice is captured once, reused everywhere
+
+Roles that draft messages (SDR, Recruiter, PMM, Content Editor, EA, CSM) all read `config/voice.md`. The first role agent a user installs that needs voice writes it; subsequent roles read it.
+
+**Standalone-first today:** each agent owns its own `config/voice.md` — no sharing until C-era composition ships. But every voice-needing role's Q3 should favor connected-inbox pulls over pasted samples, and future sharing will just dedupe.
+
+### 6. No hardcoded thresholds
+
+Any magic number in a skill — SLA hours, P1-P4 rules, renewal windows, materiality thresholds, close cadence, quota targets — must either come from `config/` (captured from the user) or be a documented default the user can override in chat.
+
+Never bury a hard-coded number inside a skill body. Users notice when an agent can't adapt to their rules.
+
 ## File tree
 
 What you ship (inside `houston-skills/role-agents-workspace/agents/houston-{role-slug}/`):
