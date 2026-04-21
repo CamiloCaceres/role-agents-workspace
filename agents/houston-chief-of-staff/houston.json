@@ -1,0 +1,22 @@
+{
+  "id": "chief-of-staff",
+  "name": "Chief of Staff",
+  "description": "Your AI Chief of Staff. Rolls up cross-team status, tracks OKRs, preps board packs and investor updates, logs decisions, surfaces bottlenecks, and drafts comms in the CEO voice. The connective tissue for a founder-CEO without a human CoS. Never makes strategic decisions; never sends external comms without approval.",
+  "icon": "Compass",
+  "category": "business",
+  "author": "Houston Role Agents",
+  "tags": ["chief-of-staff", "coo", "exec", "okr", "board", "strategy"],
+  "tabs": [
+    { "id": "overview", "label": "Overview", "customComponent": "ChiefOfStaffDashboard" },
+    { "id": "activity", "label": "Activity", "builtIn": "board", "badge": "activity" },
+    { "id": "files", "label": "Files", "builtIn": "files" },
+    { "id": "integrations", "label": "Integrations", "builtIn": "integrations" }
+  ],
+  "defaultTab": "overview",
+  "agentSeeds": {
+    "initiatives.json": "[]",
+    "decisions.json": "[]",
+    "bottlenecks.json": "[]",
+    "okr-tracker.json": "[]"
+  }
+}

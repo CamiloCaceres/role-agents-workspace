@@ -23,8 +23,17 @@ Drafts launch briefs, builds battlecards, writes sales one-pagers, analyzes win-
 ### Recruiter — sourcing + screening + coordination
 Sources candidates with proof-of-work signals, scores openness-to-move, drafts outreach in your voice, runs structured screens, coordinates interviews, and prepares handoff packs for hiring managers. Never extends offers or rejects without approval.
 
+### Content Editor — calendar + editing + publishing + repurposing
+Plans the content calendar, edits drafts to your brand voice via a Seven Sweeps pass, writes SEO briefs with an AI-citation angle, runs the publishing checklist (including always-checked compliance flags), repurposes published pieces into derivatives via the Content Atoms framework, and surfaces stale content for refresh. Never publishes without approval; never plagiarizes. Skills: `onboard-me`, `plan-calendar`, `create-seo-brief`, `edit-draft`, `write-headline-variants`, `prepare-publish`, `repurpose-content`, `analyze-performance`, `refresh-stale`, `daily-standup`.
+
 ### Data Analyst — SQL + metrics + anomalies + experiments
 Writes SQL against your warehouse, tracks core metrics daily, detects anomalies against 7d/28d baselines, analyzes experiments with lift / significance / guardrails, drafts dashboard specs for your BI tool, and triages inbound ad-hoc data asks into a prioritized queue. Read-only against your warehouse; never drops data; never runs expensive queries without warning; never claims more than the data supports. Skills: `onboard-me`, `answer-question`, `track-metric`, `detect-anomaly`, `analyze-experiment`, `build-dashboard-spec`, `audit-data-quality`, `triage-ask`, `document-query`, `daily-standup`.
+
+### CSM — account health + QBRs + renewals + expansion
+Scores account health against your weighted signals, preps QBR packs from your template, flags at-risk accounts with severity and proposed plays, spots expansion opportunities from usage signals, drafts voice-matched customer touchpoints, analyzes renewal risk inside the 90-day window, and hands qualified expansion to your AE. Pairs naturally with the Customer Support Rep (tickets feed into health). Never closes expansions, never commits to roadmap, never discloses churn-risk scoring externally. Skills: `onboard-me`, `compute-health`, `flag-at-risk`, `prep-qbr`, `spot-expansion`, `draft-touchpoint`, `analyze-renewal-risk`, `summarize-voc`, `handoff-to-ae`, `daily-standup`.
+
+### Chief of Staff — cross-team status + OKRs + board prep + CEO comms
+Rolls up cross-team status, tracks OKRs against current-quarter targets, preps board packs and investor updates, logs decisions ADR-style, surfaces bottlenecks with hypotheses and proposed owners, and drafts all-hands / team / external comms in the CEO voice. The connective tissue for a founder-CEO without a human CoS. Never makes strategic decisions unilaterally (CoS drafts, CEO decides), never impersonates the CEO externally without per-message approval. Skills: `onboard-me`, `status-rollup`, `prep-exec-meeting`, `track-okr`, `prep-board-pack`, `draft-investor-update`, `log-decision`, `identify-bottleneck`, `draft-comms`, `daily-standup`.
 
 ## Design rules (built in)
 
@@ -49,7 +58,10 @@ First-run: every agent starts with empty indexes (seeded via `agentSeeds`), so d
 **Executive Assistant:** `Onboard me` · `Give me my priorities for today` · `Brief me on my next meeting`
 **PMM:** `Onboard me` · `Build a battlecard for {competitor}` · `Draft the launch brief for {feature}`
 **Recruiter:** `Onboard me` · `Source candidates for {role}` · `Screen {candidate} for {role}`
+**Content Editor:** `Onboard me` · `Plan the next 6 weeks of content` · `Edit the draft at {slug}` · `Repurpose {slug}`
 **Data Analyst:** `Onboard me` · `How many signups this week?` · `Start tracking MRR daily` · `How did the checkout experiment do?`
+**CSM:** `Onboard me` · `Compute health for my accounts` · `Prep QBR for {account}` · `What's at risk this week?`
+**Chief of Staff:** `Onboard me` · `Give me the weekly status rollup` · `Prep the board pack for Q2` · `Log the decision we just made about {topic}` · `Daily standup`
 
 ## Structure
 
@@ -57,7 +69,7 @@ First-run: every agent starts with empty indexes (seeded via `agentSeeds`), so d
 role-agents-workspace/
 ├── workspace.json
 ├── README.md
-├── ROADMAP.md                  # upcoming role agents (Bookkeeper, CSM, Content Editor, ...)
+├── ROADMAP.md                  # upcoming role agents (Bookkeeper, CSM, ...)
 ├── role-agent-guide.md         # build guide for new role agents
 └── agents/
     ├── houston-sdr/
@@ -65,7 +77,10 @@ role-agents-workspace/
     ├── houston-ea/
     ├── houston-pmm/
     ├── houston-recruiter/
-    └── houston-data-analyst/
+    ├── houston-content-editor/
+    ├── houston-data-analyst/
+    ├── houston-csm/
+    └── houston-chief-of-staff/
 ```
 
 Each agent directory contains `houston.json`, `CLAUDE.md`, `bundle.js`, `icon.png`, `data-schema.md`, `README.md`, and `.agents/skills/<name>/SKILL.md`.
