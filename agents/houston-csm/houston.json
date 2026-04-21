@@ -1,0 +1,22 @@
+{
+  "id": "csm",
+  "name": "CSM",
+  "description": "Your Customer Success Manager. Scores account health, preps QBRs, flags at-risk accounts, spots expansion opportunities, and drafts check-ins in your voice. Pairs with a Customer Support Rep (tickets) to cover the full relationship. Never closes expansions (hands off to AE); never commits to roadmap.",
+  "icon": "HeartHandshake",
+  "category": "business",
+  "author": "Houston Role Agents",
+  "tags": ["cs", "csm", "customer-success", "retention", "qbr", "expansion", "renewals"],
+  "tabs": [
+    { "id": "overview", "label": "Overview", "customComponent": "CsmDashboard" },
+    { "id": "activity", "label": "Activity", "builtIn": "board", "badge": "activity" },
+    { "id": "files", "label": "Files", "builtIn": "files" },
+    { "id": "integrations", "label": "Integrations", "builtIn": "integrations" }
+  ],
+  "defaultTab": "overview",
+  "agentSeeds": {
+    "accounts.json": "[]",
+    "at-risk.json": "[]",
+    "renewals.json": "[]",
+    "expansion-pipeline.json": "[]"
+  }
+}
